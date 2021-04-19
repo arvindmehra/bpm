@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="description" content="">
+
+    <meta name="author" content="">
+
+    <title>RA Compliance Monitoring System</title>
+
+    <!-- Bootstrap core CSS -->
+
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+
+    <link href="css/heroic-features.css" rel="stylesheet">
+
+
+    <script src="vendor/jquery/jquery.min.js"></script>
+
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  </head>
+
+  <body onload="execute(category='Function');">
+
+  <!-- Navigation -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+
+      <div class="container">
+
+        <a class="navbar-brand" href="index.html">RA Compliance Monitoring System</a>
+
+                                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+
+        <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+
+                                   <ul class="navbar-nav ml-auto">
+
+            <li class="nav-item active">
+
+              <div class="nav-link" id="updated_date"></div>
+
+                                               
+
+            </li>
+
+          </ul>
+
+        </div>
+
+      </div>
+
+                 
+
+    </nav>
+
+    <!-- Page Content -->
+
+    <div class="container p-3">
+
+ 
+
+    <div class="d-flex align-items-center p-3 my-3 bg-info rounded box-shadow text-white">
+
+ 
+
+        <div class="lh-100" style="padding-right: 400px;">
+
+          <h5 class="mb-0 text- lh-100"><b>Activity Compliance</b></h5>
+
+        </div>
+
+          <span class="algolia-autocomplete algolia-autocomplete-left" style="display: inline-block; position: relative; direction: ltr;">
+
+            <input name="filter-input" class="form-control ds-input" id="filter-input" style="vertical-align: top; position: relative;" aria-label="Filter" type="string" placeholder="E.g opcoCode=ZM">
+
+          </span>
+
+          <button class="btn btn-primary" onclick="setCookie(document.getElementById('filter-input').value,1);" type="submit"> Apply Filter </button>
+
+          <button class="btn btn-danger" onclick="deleteCookies(true);" type="submit"> Refresh </button>
+
+      </div>
+
+ 
+
+      <div class="my-3 p-3 bg-white rounded box-shadow">
+
+        <h6 class="border-bottom border-gray pb-2 mb-0">Actions</h6>
+
+        <div class="media text-muted pt-3 col-md-12">
+
+          <div style="padding-right: 10px">
+
+            <a href="total.html">
+
+            <button type="button" class="btn btn-primary ">Total</button>
+
+            </a>
+
+          </div>
+
+          <div style="padding-right: 10px">
+
+            <a href="released.html">
+
+            <button type="button" class="btn btn-primary btn-success ">Released</button>
+
+            </a>
+
+          </div>
+
+          <div style="padding-right: 10px">
+
+            <a href="delayed.html">
+
+            <button type="button" class="btn btn-primary btn-warning">Delayed</button>
+
+            </a>
+
+          </div>
+
+          <div style="padding-right: 10px">
+
+            <a href="formaterr.html">
+
+            <button type="button" class="btn btn-primary btn-danger ">Format Error</button>
+
+            </a>
+
+          </div>
+
+          <div style="padding-right: 10px">
+
+            <a href="pending.html">
+
+            <button type="button" class="btn btn-primary btn-info ">Pending</button>
+
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="my-3 p-3 bg-white rounded box-shadow">
+
+        <h6 class="border-bottom border-gray pb-2 mb-0">Summary Report</h6>
+
+         <nav class="nav nav-underline text-white">
+
+          <div class="media text-muted pt-3 col-md-12">
+
+          <div style="padding-right: 10px">
+
+              <button type="button" class="btn-outline-primary waves-effect" onclick="execute(category='Function');">Function Report</button>
+
+          </div>
+
+          <div style="padding-right: 10px">
+
+              <button type="button" class=" btn-outline-info waves-effect" onclick="execute(category='Circle');">OPCO Report</button>
+
+          </div>
+
+         
+
+        </div>
+
+                   
+
+ 
+
+            <iframe id="txtArea1" style="display: none;"></iframe>
+
+ 
+
+            <div class="nav-link" id="updated_date"></div>
+
+          </nav>
+
+        <div class="row text-center p-3" id="sql_data" style="font-size: 15px;"></div>
+
+      </div>
+
+    </div>
+
+    </div>
+
+    <!-- /.container -->
+
+    <!-- Footer -->
+
+    <footer class="py-5 bg-dark">
+
+      <div class="container">
+
+        <p class="m-0 text-center text-white"></p>
+
+      </div>
+
+      <!-- /.container -->
+
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+
+
+ 
+
+ 
+
+  </body>
+
+    <script type="text/javascript">
+
+
+
+    // A custom function to set cookies
+
+    function setCookie( value, daysToLive) {
+
+        // Encode value in order to escape semicolons, commas, and whitespace
+
+        deleteCookies();
+
+        var cookie = value;
+
+   
+
+        if(typeof daysToLive === "number") {
+
+            /* Sets the max-age attribute so that the cookie expires
+
+            after the specified number of days */
+
+            // cookie += "; expires=" + (daysToLive*24*60*60);
+
+            // cookiepath = "/";   // accessible from every web page of the domain
+
+            // cookie += "; path=" + cookiepath;
+
+            document.cookie = cookie;
+
+            alert("Filter Applied" + " " + value);
+
+            console.log(document.cookie);
+
+        }
+
+    }
+
+   
+
+    // A custom function to get cookies
+
+    function getCookie(name) {
+
+        // Split cookie string and get all individual name=value pairs in an array
+
+        var cookieArr = document.cookie.split(";");
+
+     
+
+        // Loop through the array elements
+
+        for(var i = 0; i < cookieArr.length; i++) {
+
+            var cookiePair = cookieArr[i].split("=");
+
+   
+
+            /* Removing whitespace at the beginning of the cookie name
+
+            and compare it with the given string */
+
+            if(name == cookiePair[0].trim()) {
+
+                // Decode the cookie value and return
+
+                return decodeURIComponent(cookiePair[1]);
+
+            }
+
+        }
+
+   
+
+        // Return null if not found
+
+        return null;
+
+    }
+
+   
+
+    // A custom function to check cookies
+
+    function checkCookie() {
+
+      if (document.cookie.length > 0){
+
+        document.getElementById("filter-input").setAttribute("placeholder",document.cookie);
+
+      }
+
+        // Get cookie using our custom function
+
+        // var filterName = getCookie("filterName");
+
+   
+
+        // if(filterName != null) {
+
+        //     alert("Welcome again, " + filterName);
+
+        // } else {
+
+        //     filterName = prompt("Please enter your Filter name:");
+
+        //     if(filterName != "" && filterName != null) {
+
+        //         // Set cookie using our custom function
+
+        //         setCookie("filterName", filterName, 1);
+
+        //     }
+
+        // }
+
+    }
+
+   
+
+    // Check the cookie on page load
+
+    window.onload = checkCookie;
+
+ 
+
+    function deleteCookies(should_alert) {
+
+                var allCookies = document.cookie.split(';');
+
+                
+
+                // The "expire" attribute of every cookie is 
+
+                // Set to "Thu, 01 Jan 1970 00:00:00 GMT"
+
+                for (var i = 0; i < allCookies.length; i++)
+
+                    document.cookie = allCookies[i] + "=;expires="
+
+                    + new Date(0).toUTCString();
+
+                  if (should_alert == true) {
+
+                    alert("Filter Removed");
+
+                  }
+
+                  document.getElementById('filter-input').value = '';
+
+                  document.getElementById('filter-input').placeholder = '';
+
+                  console.log(document.cookie);
+
+               
+
+            }
+
+ 
+
+  // Uncomment the following line to delete this cookie
+
+  // setCookie("filterName", "", 0);
+
+    
+    function execute(category) {
+
+      var oFso = new ActiveXObject("Scripting.FileSystemObject");
+
+ 
+
+      var oWShell = new ActiveXObject("WScript.shell");
+
+ 
+
+      var connDB = new ActiveXObject("ADODB.Connection");
+
+ 
+
+      var rsDB = new ActiveXObject("ADODB.Recordset");
+
+ 
+
+      var objCat = new ActiveXObject("ADOX.Catalog");
+
+ 
+
+      var tbl = new ActiveXObject("ADOX.Table");
+
+ 
+
+      var gloVar = {
+
+        connStr: [
+
+          "#na",
+
+ 
+
+          "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=#mdb#;Jet OLEDB:Database Password=#pwd#;",
+
+ 
+
+          "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=#mdb#; Jet OLEDB:Database Password=#pwd#;",
+
+ 
+
+          "Driver={Microsoft Access Driver (*.mdb)};Dbq=#mdb#;Uid=Admin;Pwd=#pwd#;",
+
+ 
+
+          "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=#mdb#;Uid=Admin;Pwd=#pwd#;",
+
+        ],
+
+ 
+
+        Curpath: oWShell.CurrentDirectory.toLowerCase(),
+
+      };
+
+ 
+
+      console.log('ok');
+
+ 
+
+      //Errfile = oFso.CreateTextFile( gloVar.Curpath + '\\ErrFile.log');
+
+ 
+
+      var Curpath = oWShell.CurrentDirectory.toLowerCase();
+
+ 
+
+      var Inputpath = gloVar.Curpath + "\\input\\";
+
+ 
+
+      var Mdbpath = "D:\\bpm" + "\\mstrCalender.mdb";
+
+ 
+
+      var Outputpath = gloVar.Curpath + "\\Output\\";
+
+ 
+
+      //KillExcel();
+
+ 
+
+      tmpstr = "#NA";
+
+ 
+
+      var FileCount = 1;
+
+ 
+
+      if (FileCount > 0) {
+
+        var tmpReturnVal = "#okok";
+
+ 
+
+        try {
+
+          tmpCnt = 1;
+
+ 
+
+          while (tmpCnt < gloVar.connStr.length) {
+
+            connDB.connectionString = gloVar.connStr[tmpCnt].replace("#mdb#", "d:\\BPM\\db.cal.all.mdb").replace("#pwd#", "wtf!$#");
+
+ 
+
+            try {
+
+              connDB.open;
+
+            } catch (err) {
+
+              // oWShell.Popup(err.message)
+
+            }
+
+ 
+
+            if (connDB.state == 1) {
+
+              gloVar.connStr[0] = gloVar.connStr[tmpCnt];
+
+ 
+
+              connDB.close();
+
+ 
+
+              tmpCnt = 8000;
+
+            }
+
+ 
+
+            tmpCnt += 1;
+
+          }
+
+        } catch (err) {
+
+          oWShell.popup("1" + err.message);
+
+        }
+
+ 
+
+        if (tmpReturnVal == "#okok") {
+
+          connDB.connectionString = gloVar.connStr[0].replace("#mdb#", "d:\\BPM\\db.cal.all.mdb").replace("#pwd#", "wtf!$#");
+
+ 
+
+          try {
+
+            connDB.open;
+
+          } catch (err) {
+
+            tmpReturnVal = "3#error: " + err.message;
+
+ 
+
+            oWShell.Popup(tmpReturnVal);
+
+          }
+
+ 
+
+          if (connDB.state == 1) {
+
+            if (category == "Function") {
+
+              sql = "SELECT Query10_F.FunctionName, Query10_F.FormatErr, Query10_F.Delayed, Query10_F.Pending, Query10_F.Released, Query10_F.Scheduled, Query10_F.Total FROM Query10_F UNION SELECT 'ZTotal :' AS Z, Sum(Query10_F.FormatErr) AS F, Sum(Query10_F.Delayed) AS D, Sum(Query10_F.Pending) AS P,  Sum(Query10_F.Released) AS R, Sum(Query10_F.Scheduled) AS S, Sum(Query10_F.Total) AS T FROM Query10_F";
+
+            } else {
+
+              sql = "SELECT Query9.Circle, Query9.FormatErr, Query9.Delayed, Query9.Pending, Query9.Released, Query9.Scheduled, Query9.Total FROM Query9 UNION SELECT 'ZTotal :' AS Z, Sum(Query9.FormatErr) AS F, Sum(Query9.Delayed) AS D, Sum(Query9.Pending) AS P,  Sum(Query9.Released) AS R, Sum(Query9.Scheduled) AS S, Sum(Query9.Total) AS T FROM Query9";
+
+            }
+
+         
+
+            rsDB.open(sql, connDB, 1, 3);
+
+ 
+
+            var results = [];
+
+ 
+
+            var download_report_records = [];
+
+ 
+
+            if (rsDB.eof == false) {
+
+              var fieldcount = rsDB.Fields.count;
+
+ 
+
+              var fieldNames = [];
+
+ 
+
+              for (var i = 0, x = rsDB.Fields.Count; i < x; i++) {
+
+                fieldNames.push(rsDB.Fields(i).name);
+
+              }
+
+ 
+
+              // Build Data Collection
+
+ 
+
+              while (rsDB.eof === false) {
+
+                var record = {};
+
+                for (var z = 0, y = fieldNames.length; z < y; z++) {
+
+                  record[fieldNames[z]] = String(rsDB.Fields(z));
+
+                }
+
+              
+
+                results.push(record);
+
+ 
+
+                rsDB.MoveNext;
+
+              }
+
+            }
+
+          
+
+            try {
+
+              rsDB.close();
+
+            } catch (err) {}
+
+  getDate(rsDB, connDB);
+
+           
+
+          }
+
+ 
+
+          try {
+
+            connDB.close();
+
+          } catch (err) {}
+
+
+        }
+
+      }
+
+ 
+      generate_table(results);
+
+    }
+
+
+  function getDate(rsDB, connDB) {
+
+      dateSql = "SELECT reffUpd.LastUpd from reffUpd";
+
+ 
+
+      rsDB.open(dateSql, connDB, 1, 3);
+
+ 
+
+      var lastUpdateDate = "";
+
+ 
+
+      var fieldNames = [];
+
+ 
+
+      while (rsDB.eof === false) {
+
+        var record = {};
+
+ 
+
+        for (var i = 0, x = rsDB.Fields.Count; i < x; i++) {
+
+          fieldNames.push(rsDB.Fields(i).name);
+
+        }
+
+ 
+
+        for (var z = 0, y = fieldNames.length; z < y; z++) {
+
+          record[fieldNames[z]] = rsDB.Fields(z);
+
+        }
+
+ 
+
+        lastUpdateDate = new Date(record.LastUpd).toLocaleString();
+
+ 
+
+        rsDB.MoveNext;
+
+      }
+
+ 
+
+      document.getElementById("updated_date").innerHTML = lastUpdateDate;
+
+ 
+
+      try {
+
+        rsDB.close();
+
+      } catch (err) {}
+
+    }
+
+
+    function generate_table(res) {
+
+      if (category=="Function") {
+
+        var visible = ["FunctionName", "Delayed", "FormatErr", "Pending", "Released", "Scheduled", "Total"];
+
+      } else {
+
+      var visible = ["Circle", "Delayed", "FormatErr", "Pending", "Released", "Scheduled", "Total"];
+
+    }
+
+ 
+
+      // get the reference for the body
+
+ 
+
+      var div = document.getElementById("sql_data");
+
+ 
+
+      while (div.firstChild) {
+
+        div.removeChild(div.firstChild);
+
+      }
+
+ 
+
+      var body = document.getElementById("sql_data");
+
+ 
+
+      // creates a <table> element and a <tbody> element
+
+ 
+
+      var tbl = document.createElement("table");
+
+ 
+
+      var tblBody = document.createElement("tbody");
+
+ 
+
+      for (var i = 0, x = res.length; i < x; i++) {
+
+        var row = document.createElement("tr");
+
+ 
+
+        if (i === 0) {
+
+          for (var q in res[i]) {
+
+            var cell = document.createElement("td");
+
+ 
+
+            var dataText = res[i][q];
+            dataText = dataText.replace(/null/g, '-');
+
+ 
+
+            var substring = "GMT";
+
+ 
+
+            var serverstring = "10.56.91.11";
+
+ 
+
+            if (dataText.indexOf(substring) == -1) {
+
+              cellText = document.createTextNode(dataText);
+
+            } else {
+
+              dataText = new Date(dataText).toLocaleDateString();
+
+            }
+
+ 
+
+            if (visible.indexOf(q) == -1) {
+
+              cell.setAttribute("class", "d-none");
+
+            }
+
+ 
+
+            var cellText = document.createTextNode(dataText);
+           
+
+
+            cell.appendChild(cellText);
+
+ 
+
+            if (dataText.indexOf(serverstring) == -1) {
+
+              cell.setAttribute("data-toggle", "tooltip");
+
+ 
+
+              cell.setAttribute("title", res[i][q]);
+
+ 
+
+              cell.setAttribute("data-placement", "top");
+
+ 
+
+              row.appendChild(cell);
+
+            } else {
+
+              var aTag = document.createElement("a");
+
+ 
+
+              aTag.setAttribute("href", res[i][q]);
+
+ 
+
+              aTag.setAttribute("download", "");
+
+ 
+
+              aTag.innerText = "Download";
+
+ 
+
+              row.appendChild(aTag);
+
+            }
+
+          }
+
+ 
+
+          tblBody.appendChild(row);
+
+ 
+
+          // --------------------------
+
+ 
+
+          var row2 = document.createElement("tr");
+
+ 
+
+          for (var r in res[i]) {
+
+            var cell = document.createElement("th");
+
+ 
+
+            var cellText = document.createTextNode(r);
+
+ 
+
+            if (visible.indexOf(r) == -1) {
+
+              cell.setAttribute("class", "d-none");
+
+            }
+
+ 
+
+            cell.appendChild(cellText);
+
+ 
+
+            row2.appendChild(cell);
+
+          }
+
+ 
+
+          tblBody.appendChild(row2);
+
+        } else {
+
+          for (var q in res[i]) {
+
+            var cell = document.createElement("td");
+
+ 
+
+            var dataText = res[i][q];
+            dataText = dataText.replace(/null/g, '-');
+
+ 
+
+            var substring = "GMT";
+
+ 
+
+            var serverstring = "10.56.91.11";
+
+ 
+
+            if (dataText.indexOf(substring) == -1) {
+
+              cellText = document.createTextNode(dataText);
+
+            } else {
+
+              dataText = new Date(dataText).toLocaleDateString();
+
+            }
+
+ 
+
+            if (visible.indexOf(q) == -1) {
+
+              cell.setAttribute("class", "d-none");
+
+            }
+
+ 
+
+            var cellText = document.createTextNode(dataText);
+
+ 
+
+            cell.appendChild(cellText);
+
+ 
+
+            if (dataText.indexOf(serverstring) == -1) {
+
+              cell.setAttribute("data-toggle", "tooltip");
+
+ 
+
+              cell.setAttribute("title", res[i][q]);
+
+ 
+
+              cell.setAttribute("data-placement", "top");
+
+ 
+
+              row.appendChild(cell);
+
+            } else {
+
+              var aTag = document.createElement("a");
+
+ 
+
+              aTag.setAttribute("href", res[i][q]);
+
+ 
+
+              aTag.setAttribute("download", "");
+
+ 
+
+              aTag.innerText = "Download";
+
+ 
+
+              row.appendChild(aTag);
+
+            }
+
+          }
+
+        }
+
+ 
+
+        tblBody.appendChild(row);
+
+      }
+
+ 
+
+      // put the <tbody> in the <table>
+
+ 
+
+      tbl.appendChild(tblBody);
+
+ 
+
+      // appends <table> into <body>
+
+ 
+
+      body.appendChild(tbl);
+
+ 
+
+      // sets the border attribute of tbl to 2;
+
+ 
+
+      tbl.setAttribute("class", "table table-striped table-sm table-bordered");
+
+ 
+
+      tbl.setAttribute("id", "fetched_data");
+
+    }
+
+ 
+
+  </script>
+
+  <style type="text/css">
+
+  #sql_data .table-striped>tbody>tr:nth-child(odd)>td,
+
+#sql_data .table-striped>tbody>tr:nth-child(odd)>th {
+
+  background-color: #17a2b8;
+
+}
+
+</style>
+<script type="text/javascript">
+  $(document).ready(function() {
+    execute(category='Function');
+  });
+</script>
+
+</html>
+

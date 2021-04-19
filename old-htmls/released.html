@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>BPM Tool</title>
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/heroic-features.css" rel="stylesheet">
+  </head>
+  <body onload="execute()">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">BPM Tool</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="index.html">Home
+              <span class="sr-only">(current)</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Page Content -->
+    <div class="container p-3">
+      <div class="d-flex align-items-center p-3 my-3 bg-info rounded box-shadow text-white">
+        <div class="lh-100">
+          <h5 class="mb-0 text- lh-100"><b>Activity Compliance</b></h5>
+        </div>
+
+
+
+        
+          <span class="algolia-autocomplete algolia-autocomplete-left" style="position: relative; display: inline-block; direction: ltr;">
+            <input name="filter-input" type="string" class="form-control ds-input" id="filter-input" placeholder="StatusCompliance=Released" aria-label="Filter" style="position: relative; vertical-align: top;"></span>
+          <button type="submit" class="btn btn-primary" onclick="execute(document.getElementById('filter-input').value);" > Submit </button>
+       
+
+
+        <div class="nav-scroller box-shadow text-white" style="padding-left: 290px;">
+          <nav class="nav nav-underline text-white">
+            <button type="button" class="btn btn-primary" onclick="fnExcelReport();"> Download Report </button>
+            <iframe id="txtArea1" style="display:none"></iframe>
+            <div class="nav-link" id="updated_date"></div>
+          </nav>
+        </div>
+      </div>
+      <div class="bd-example">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page"><b>Released Report</b></li>
+          </ol>
+        </nav>
+        <div class="row text-center p-3" id="sql_data" style="font-size: 12px;"></div>
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container -->
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white"></p>
+      </div>
+      <!-- /.container -->
+    </footer>
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  </body>
+  <script type="text/javascript">
+    function execute(condition) {
+    
+      var oFso = new ActiveXObject("Scripting.FileSystemObject");
+    
+      var oWShell = new ActiveXObject("WScript.shell");
+    
+      var connDB = new ActiveXObject("ADODB.Connection");
+    
+      var rsDB = new ActiveXObject("ADODB.Recordset");
+    
+      var objCat = new ActiveXObject("ADOX.Catalog");
+    
+      var tbl = new ActiveXObject("ADOX.Table");
+
+      var gloVar = {
+    
+        "connStr": ["#na",
+    
+          "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=#mdb#;Jet OLEDB:Database Password=#pwd#;",
+    
+          "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=#mdb#; Jet OLEDB:Database Password=#pwd#;",
+    
+          "Driver={Microsoft Access Driver (*.mdb)};Dbq=#mdb#;Uid=Admin;Pwd=#pwd#;",
+    
+          "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=#mdb#;Uid=Admin;Pwd=#pwd#;"
+        ],
+    
+        "Curpath": (oWShell.CurrentDirectory).toLowerCase()
+    
+      }
+      console.log(gloVar.Curpath)
+    
+      //Errfile = oFso.CreateTextFile( gloVar.Curpath + '\\ErrFile.log');
+    
+      var Curpath = oWShell.CurrentDirectory.toLowerCase();
+    
+      var Inputpath = gloVar.Curpath + '\\input\\';
+    
+      var Mdbpath = 'D:\\bpm' + '\\mstrCalender.mdb';
+    
+      var Outputpath = gloVar.Curpath + '\\Output\\';
+    
+      //KillExcel();
+    
+      tmpstr = '#NA';
+    
+      var FileCount = 1;
+    
+      if (FileCount > 0) {
+    
+        var tmpReturnVal = "#okok";
+    
+        try {
+    
+          tmpCnt = 1;
+    
+          while (tmpCnt < gloVar.connStr.length) {
+    
+            connDB.connectionString = (gloVar.connStr[tmpCnt]).replace("#mdb#", Mdbpath).replace("#pwd#", "spark#1010");
+    
+            try {
+              connDB.open;
+            } catch (err) {
+              // oWShell.Popup(err.message)
+            }
+    
+            if (connDB.state == 1) {
+              gloVar.connStr[0] = gloVar.connStr[tmpCnt];
+              connDB.close();
+              tmpCnt = 8000;
+            }
+    
+            tmpCnt += 1;
+    
+          }
+    
+        } catch (err) {
+          oWShell.popup('1' + err.message)
+        }
+    
+        if (tmpReturnVal == "#okok") {
+    
+          connDB.connectionString = (gloVar.connStr[0]).replace("#mdb#", Mdbpath).replace("#pwd#", "spark#1010");
+    
+          try {
+            connDB.open;
+          } catch (err) {
+            tmpReturnVal = "3#error: " + err.message;
+            oWShell.Popup(tmpReturnVal);
+          }
+    
+          if (connDB.state == 1) {
+    
+            sql = "SELECT Calendar.ReportFileName, Calendar.Sch_DT, Calendar.StatusCompliance, Calendar.FileReceivedOn, Calendar.PointsScored, Calendar.region, Calendar.opcoName, Calendar.opcoCode, Calendar.LOB, Calendar.FunctionName, Calendar.CurrMonth, Calendar.LiveFrom, Calendar.ActiCode, Calendar.ActiName, Calendar.Grade, Calendar.ReportID, Calendar.ReportIDNew, Calendar.ReportName, Calendar.DoneAt, Calendar.Hub, Calendar.Circle, Calendar.Frequency, Calendar.ConcernPerson01, Calendar.ConcernPerson02, Calendar.Sch_DT0, Calendar.FileModifiedOn, Calendar.FileModifiedOnGMT, Calendar.FileSize, Calendar.FileDeliveredDT, Calendar.FileDeliveredDTFirst, Calendar.FileDeliveredCount, Calendar.FilePath, Calendar.MailKey, Calendar.FormatRem, Calendar.LastUpdatedOn, Calendar.FlagUpdate, Calendar.ActiCodeID, Calendar.Flag01, Calendar.Flag02, Calendar.Flag03, Calendar.LastRem, Calendar.LastRemDTi, Calendar.LastRemBy, Calendar.LastRemByITissue, Calendar.UserRemarks from Calendar where Calendar.StatusCompliance = 'Released'";
+
+            if ( typeof condition !== 'undefined' ){
+
+              var temp = new Array();
+              temp = condition.split(",");
+              var mainquery = new String();
+              var subquery = new String();
+              // ["lob=m", " sop=s"]
+              for (var i = 0, x = temp.length; i < x; i++) {
+                var first_param = temp[i]
+                // "lob=m"
+                var subparam = new Array();
+                subparam = first_param.split("=");
+                // ["lob", "m"]
+                var condition1 = new String();
+                var value1 = new String();
+                for (var j = 0, y = subparam.length; j < y; j++) {
+                   if (j === 0) {
+                     condition1 = "Calendar." + subparam[j].trim()
+                    } else {
+                      if (condition1 == "Calendar.PointsScored") {
+                        value1 = parseInt(subparam[j])
+                      }else {
+                        value1 = "'" + subparam[j] + "'"
+                      }                        
+                    }
+                  
+                }
+                subquery += " and " + condition1 +  " = " + value1
+
+              }
+
+              mainquery += subquery
+
+              sql = "SELECT Calendar.ReportFileName, Calendar.Sch_DT, Calendar.StatusCompliance, Calendar.FileReceivedOn, Calendar.PointsScored, Calendar.region, Calendar.opcoName, Calendar.opcoCode, Calendar.LOB, Calendar.FunctionName, Calendar.CurrMonth, Calendar.LiveFrom, Calendar.ActiCode, Calendar.ActiName, Calendar.Grade, Calendar.ReportID, Calendar.ReportIDNew, Calendar.ReportName, Calendar.DoneAt, Calendar.Hub, Calendar.Circle, Calendar.Frequency, Calendar.ConcernPerson01, Calendar.ConcernPerson02, Calendar.Sch_DT0, Calendar.FileModifiedOn, Calendar.FileModifiedOnGMT, Calendar.FileSize, Calendar.FileDeliveredDT, Calendar.FileDeliveredDTFirst, Calendar.FileDeliveredCount, Calendar.FilePath, Calendar.MailKey, Calendar.FormatRem, Calendar.LastUpdatedOn, Calendar.FlagUpdate, Calendar.ActiCodeID, Calendar.Flag01, Calendar.Flag02, Calendar.Flag03, Calendar.LastRem, Calendar.LastRemDTi, Calendar.LastRemBy, Calendar.LastRemByITissue, Calendar.UserRemarks from Calendar where Calendar.StatusCompliance = 'Released'"
+              sql += mainquery
+            }
+            
+            //sql = ".CurrMonth, mstrCalendar.ActiCode, mstrCalendar.Circle, mstrCalendar.ReportFileName, mstrCalendar.ConcernPerson02, mstrCalendar.Sch_DT, mstrCalendar.FilePath, mstrCalendar.StatusCompliance FROM mstrCalendar INNER JOIN (SELECT mstrCalendar.ActiCode, mstrCalendar.Circle, Max(mstrCalendar.Proposed_Sch_DT) AS MaxOfSch_DT FROM mstrCalendar WHERE (((mstrCalendar.StatusCompliance)<>'Scheduled') and CurrMonth = '" + CurrMonth +"') GROUP BY mstrCalendar.ActiCode, mstrCalendar.Circle HAVING (((mstrCalendar.ActiCode)='"+ actcode +"')) )  AS MaxTab ON (mstrCalendar.Proposed_Sch_DT = MaxTab.MaxOfSch_DT) AND (mstrCalendar.Circle = MaxTab.Circle) AND (mstrCalendar.ActiCode = MaxTab.ActiCode) GROUP BY mstrCalendar.CurrMonth, mstrCalendar.ActiCode, mstrCalendar.Circle, mstrCalendar.ReportFileName, mstrCalendar.ConcernPerson02, mstrCalendar.Sch_DT, mstrCalendar.FilePath, mstrCalendar.StatusCompliance"
+            rsDB.open(sql, connDB, 1, 3);
+
+    
+            var results = [];
+            if (rsDB.eof == false) {
+    
+              var fieldcount = rsDB.Fields.count;
+    
+              var fieldNames = [];
+    
+              for (var i = 0, x = rsDB.Fields.Count; i < x; i++) {
+    
+                fieldNames.push(rsDB.Fields(i).name);
+    
+              }
+              // Build Data Collection
+              while (rsDB.eof === false) {
+    
+                var record = {};
+                for (var z = 0, y = fieldNames.length; z < y; z++) {
+              
+                  record[fieldNames[z]] = String(rsDB.Fields(z));
+    
+                }
+                results.push(record);
+                rsDB.MoveNext;
+      
+              }
+    
+            }
+    
+            try {
+              rsDB.close();
+            } catch (err) {}
+    
+            getDate(rsDB,connDB);
+          }
+    
+          try {
+            connDB.close();
+          } catch (err) {}
+        }
+    
+      }
+
+              
+      generate_table(results);
+    }
+    
+     function getDate(rsDB,connDB) {
+        dateSql = "SELECT reffUpd.LastUpd from reffUpd";
+            rsDB.open(dateSql, connDB, 1, 3);
+          
+            var lastUpdateDate = "";
+            var fieldNames = [];
+            while (rsDB.eof === false) {
+    
+                var record = {};
+                for (var i = 0, x = rsDB.Fields.Count; i < x; i++) {
+    
+                fieldNames.push(rsDB.Fields(i).name);
+    
+              }
+    
+                for (var z = 0, y = fieldNames.length; z < y; z++) {
+                  record[fieldNames[z]] = rsDB.Fields(z);
+    
+                }
+                
+                lastUpdateDate = new Date(record.LastUpd).toLocaleString();
+                rsDB.MoveNext;
+    
+              }
+    
+    
+        document.getElementById("updated_date").innerHTML = lastUpdateDate;
+        try {
+              rsDB.close();
+            } catch (err) {}
+    
+      }
+    
+      function generate_table(res) {
+        var visible = ["ReportFileName", "Sch_DT","StatusCompliance","FileReceivedOn","PointsScored"];
+
+      // get the reference for the body
+      var div = document.getElementById('sql_data'); 
+      while(div.firstChild) { 
+          div.removeChild(div.firstChild); 
+      } 
+      var body = document.getElementById("sql_data");
+    
+      // creates a <table> element and a <tbody> element
+      var tbl = document.createElement("table");
+      var tblBody = document.createElement("tbody");
+    
+     for (var i = 0, x = res.length; i < x; i++) {
+              var row = document.createElement("tr");
+                if (i === 0) {
+                  var serialCell = document.createElement("td");
+                  var serialCellText = document.createTextNode( i+1);
+  
+                  serialCell.appendChild(serialCellText);
+  
+                  row.appendChild(serialCell);
+                  for (var q in res[i]) {
+    
+                    var cell = document.createElement("td");
+                    var dataText = res[i][q].substring(0,80);
+                    var substring = "GMT";
+                    if (dataText.indexOf(substring) == -1){
+                      cellText =  document.createTextNode(dataText);
+                    }
+                    else {
+                      dataText = new Date(dataText).toDateString();
+                    }
+
+                    if (visible.indexOf(q) == -1){
+                      cell.setAttribute("class", "d-none");
+                    }
+                    var cellText= document.createTextNode(dataText);
+                    cell.appendChild(cellText);
+                    cell.setAttribute("data-toggle", "tooltip");
+                    cell.setAttribute("title",res[i][q]);
+                    cell.setAttribute("data-placement","top");
+                    row.appendChild(cell);
+                  }
+                  tblBody.appendChild(row);
+                    // --------------------------
+                  var row2 = document.createElement("tr");
+                  var serialCell = document.createElement("th");
+                  var serialCellText = document.createTextNode("#");
+                  serialCell.appendChild(serialCellText);
+                  row2.appendChild(serialCell);
+                  for (var r in res[i]) {
+                    var cell = document.createElement("th");
+                    var cellText = document.createTextNode(r);
+                     if (visible.indexOf(r) == -1){
+                        cell.setAttribute("class", "d-none");
+                      }
+                    cell.appendChild(cellText); 
+                    row2.appendChild(cell);
+    
+                  }
+                   tblBody.appendChild(row2);
+    
+                } else {
+    
+                    var serialCell = document.createElement("td");
+                    var serialCellText = document.createTextNode( i+1);
+    
+                    serialCell.appendChild(serialCellText);
+    
+                    row.appendChild(serialCell);
+                    for (var q in res[i]) {
+      
+                      var cell = document.createElement("td");
+                      var dataText = res[i][q].substring(0,80);
+                      var substring = "GMT";
+                      if (dataText.indexOf(substring) == -1){
+                        cellText =  document.createTextNode(dataText);
+                      }
+                      else {
+                        dataText = new Date(dataText).toDateString();
+                      }
+                      if (visible.indexOf(q) == -1){
+                        cell.setAttribute("class", "d-none");
+                      }
+                      var cellText= document.createTextNode(dataText);
+                      cell.appendChild(cellText);
+                      cell.setAttribute("data-toggle", "tooltip");
+                      cell.setAttribute("title",res[i][q]);
+                      cell.setAttribute("data-placement","top");
+                      row.appendChild(cell);
+                    }
+    
+                }
+
+               
+                tblBody.appendChild(row);
+              }
+     // put the <tbody> in the <table>
+      tbl.appendChild(tblBody);
+      // appends <table> into <body>
+      body.appendChild(tbl);
+      // sets the border attribute of tbl to 2;
+      tbl.setAttribute("class", "table table-striped table-sm table-bordered");
+      tbl.setAttribute("id", "fetched_data");
+    
+    }
+    
+    function fnExcelReport()
+    {
+        var tab_text="<table border='2px'><tr bgcolor='#87AFC6'>";
+        var textRange; var j=0;
+        tab = document.getElementById('fetched_data'); // id of table
+    
+        for(j = 0 ; j < tab.rows.length ; j++) 
+        {     
+            tab_text=tab_text+tab.rows[j].innerHTML+"</tr>";
+            //tab_text=tab_text+"</tr>";
+        }
+    
+        tab_text=tab_text+"</table>";
+        tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+        tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
+        tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+    
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE "); 
+    
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+        {
+            txtArea1.document.open("txt/html","replace");
+            txtArea1.document.write(tab_text);
+            txtArea1.document.close();
+            txtArea1.focus(); 
+            sa=txtArea1.document.execCommand("SaveAs",true,"report.xls");
+        }  
+        else                 //other browser not tested on IE 11
+            sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));  
+    
+        return (sa);
+    }
+  </script>
+</html>
