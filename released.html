@@ -396,13 +396,13 @@
 
             if (download_reports == true) {
 
-              sql = "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.LOB,Calendar.FunctionName,Calendar.CurrMonth,Calendar.ActiCode,Calendar.ActiName,Calendar.Grade,Calendar.HUB,Calendar.Circle, Calendar.Frequency, Calendar.ReportFileName, Calendar.ConcernPerson01, Calendar.ConcernPerson02, Calendar.Sch_DT, Calendar.FileReceivedOn, Calendar.FileModifiedOn, Calendar.FileModifiedOnGMT, Calendar.FileSize, Calendar.FilePath, Calendar.StatusCompliance, Calendar.PointsScored from Calendar where Calendar.StatusCompliance='Released'";
+              sql = "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.LOB,Calendar.FunctionName,Calendar.CurrMonth,Calendar.ActiCode,Calendar.ActiName,Calendar.Grade,Calendar.HUB,Calendar.Circle, Calendar.Frequency, Calendar.ReportFileName, Calendar.ConcernPerson01, Calendar.ConcernPerson02, Calendar.Sch_DT, Calendar.FileReceivedOn, Calendar.FileModifiedOn, Calendar.FileModifiedOnGMT, Calendar.FileSize, IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath, Calendar.StatusCompliance, Calendar.PointsScored from Calendar where Calendar.StatusCompliance='Released'";
 
             } else {
 
               sql =
 
-                "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.Sch_DT, Calendar.FileReceivedOn, Calendar.StatusCompliance, Calendar.FilePath from Calendar where Calendar.StatusCompliance = 'Released'";
+                "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.Sch_DT, Calendar.FileReceivedOn, Calendar.StatusCompliance, IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath from Calendar where Calendar.StatusCompliance = 'Released'";
 
             }
 
@@ -418,7 +418,7 @@
 
               for (var i = 0, x = document_cookie.length; i < x; i++) {
 
-                var cookie_filter =document_cookie[i];
+                var cookie_filter = document_cookie[i];
 
                 var filter_value = cookie_filter.split("=")[1].trim();
 
@@ -528,13 +528,13 @@
 
               if (download_reports == true) {
 
-                sql = "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.LOB,Calendar.FunctionName,Calendar.CurrMonth,Calendar.ActiCode,Calendar.ActiName,Calendar.Grade,Calendar.HUB,Calendar.Circle, Calendar.Frequency, Calendar.ReportFileName, Calendar.ConcernPerson01, Calendar.ConcernPerson02, Calendar.Sch_DT, Calendar.FileReceivedOn, Calendar.FileModifiedOn, Calendar.FileModifiedOnGMT, Calendar.FileSize, Calendar.FilePath, Calendar.StatusCompliance, Calendar.PointsScored from Calendar where Calendar.StatusCompliance='Released'";
+                sql = "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.LOB,Calendar.FunctionName,Calendar.CurrMonth,Calendar.ActiCode,Calendar.ActiName,Calendar.Grade,Calendar.HUB,Calendar.Circle, Calendar.Frequency, Calendar.ReportFileName, Calendar.ConcernPerson01, Calendar.ConcernPerson02, Calendar.Sch_DT, Calendar.FileReceivedOn, Calendar.FileModifiedOn, Calendar.FileModifiedOnGMT, Calendar.FileSize, IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath, Calendar.StatusCompliance, Calendar.PointsScored from Calendar where Calendar.StatusCompliance='Released'";
 
               } else {
 
                 sql =
 
-                  "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.Sch_DT, Calendar.FileReceivedOn, Calendar.StatusCompliance, Calendar.FilePath from Calendar where Calendar.StatusCompliance = 'Released'";
+                  "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.Sch_DT, Calendar.FileReceivedOn, Calendar.StatusCompliance, IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath from Calendar where Calendar.StatusCompliance = 'Released'";
 
               }
 
@@ -595,7 +595,6 @@
  
 
             if (rsDB.eof == false) {
-
               var fieldcount = rsDB.Fields.count;
 
  
@@ -621,7 +620,6 @@
                 var record = {};
 
                 for (var z = 0, y = fieldNames.length; z < y; z++) {
-
                   record[fieldNames[z]] = String(rsDB.Fields(z));
 
                 }
@@ -972,8 +970,6 @@
  
 
             var cellText = document.createTextNode(dataText);
-
- 
 
             cell.appendChild(cellText);
 

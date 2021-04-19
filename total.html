@@ -399,7 +399,7 @@
 
               sql =
 
-                "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.LOB,Calendar.FunctionName,Calendar.CurrMonth,Calendar.ActiCode,Calendar.ActiName,Calendar.Grade,Calendar.HUB,Calendar.Circle, Calendar.Circle,Calendar.Frequency,Calendar.ReportFileName,Calendar.ConcernPerson01,Calendar.ConcernPerson02,Calendar.Sch_DT,Calendar.FileReceivedOn,Calendar.FileModifiedOn,Calendar.FileModifiedOnGMT,Calendar.FileSize,Calendar.FilePath,Calendar.StatusCompliance,Calendar.PointsScored from Calendar where Calendar.LOB='Mobility' OR Calendar.LOB='B2B' OR Calendar.LOB='AirtelMoney'";
+                "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.LOB,Calendar.FunctionName,Calendar.CurrMonth,Calendar.ActiCode,Calendar.ActiName,Calendar.Grade,Calendar.HUB,Calendar.Circle, Calendar.Circle,Calendar.Frequency,Calendar.ReportFileName,Calendar.ConcernPerson01,Calendar.ConcernPerson02,Calendar.Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) As FileReceivedOn ,Calendar.FileModifiedOn,Calendar.FileModifiedOnGMT,Calendar.FileSize,IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath ,Calendar.StatusCompliance,Calendar.PointsScored from Calendar where Calendar.LOB='Mobility' OR Calendar.LOB='B2B' OR Calendar.LOB='AirtelMoney'";
 
             } else {
 
@@ -447,7 +447,7 @@
 
                 sql =
 
-                  "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.Sch_DT, Calendar.FileReceivedOn, Calendar.StatusCompliance, Calendar.FilePath from Calendar where " +
+                  "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Calendar.StatusCompliance, IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath from Calendar where " +
 
                   main_filter +
 
@@ -457,7 +457,7 @@
 
                 sql =
 
-                  "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.Sch_DT, Calendar.FileReceivedOn, Calendar.StatusCompliance, Calendar.FilePath from Calendar where Calendar.LOB='Mobility' OR Calendar.LOB='B2B' OR Calendar.LOB='AirtelMoney' ";
+                  "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Calendar.StatusCompliance,  IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath from Calendar where Calendar.LOB='Mobility' OR Calendar.LOB='B2B' OR Calendar.LOB='AirtelMoney' ";
 
               }
 
@@ -553,7 +553,7 @@
 
                 sql =
 
-                  "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.LOB,Calendar.FunctionName,Calendar.CurrMonth,Calendar.ActiCode,Calendar.ActiName,Calendar.Grade,Calendar.HUB,Calendar.Circle, Calendar.Frequency, Calendar.ReportFileName, Calendar.ConcernPerson01, Calendar.ConcernPerson02, Calendar.Sch_DT, Calendar.FileReceivedOn, Calendar.FileModifiedOn, Calendar.FileModifiedOnGMT, Calendar.FileSize, Calendar.FilePath, Calendar.StatusCompliance, Calendar.PointsScored from Calendar where Calendar.LOB='Mobility' OR Calendar.LOB='B2B' OR Calendar.LOB='AirtelMoney'";
+                  "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.LOB,Calendar.FunctionName,Calendar.CurrMonth,Calendar.ActiCode,Calendar.ActiName,Calendar.Grade,Calendar.HUB,Calendar.Circle, Calendar.Frequency, Calendar.ReportFileName, Calendar.ConcernPerson01, Calendar.ConcernPerson02, Calendar.Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Calendar.FileModifiedOn, Calendar.FileModifiedOnGMT, Calendar.FileSize, IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath, Calendar.StatusCompliance, Calendar.PointsScored from Calendar where Calendar.LOB='Mobility' OR Calendar.LOB='B2B' OR Calendar.LOB='AirtelMoney'";
 
               } else {
 
@@ -601,7 +601,7 @@
 
                   sql =
 
-                    "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.Sch_DT, Calendar.FileReceivedOn, Calendar.StatusCompliance, Calendar.FilePath from Calendar where " +
+                    "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Calendar.StatusCompliance, IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath from Calendar where " +
 
                     main_filter +
 
@@ -611,7 +611,7 @@
 
                   sql =
 
-                    "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.Sch_DT, Calendar.FileReceivedOn, Calendar.StatusCompliance, Calendar.FilePath from Calendar where Calendar.LOB='Mobility' OR Calendar.LOB='B2B' OR Calendar.LOB='AirtelMoney' ";
+                    "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Calendar.StatusCompliance, IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath from Calendar where Calendar.LOB='Mobility' OR Calendar.LOB='B2B' OR Calendar.LOB='AirtelMoney' ";
 
                 }
 
@@ -621,9 +621,6 @@
 
             }
 
- 
-
-            console.log(sql);
 
             rsDB.open(sql, connDB, 1, 3);
 
@@ -664,7 +661,6 @@
                 var record = {};
 
                 for (var z = 0, y = fieldNames.length; z < y; z++) {
-
                   record[fieldNames[z]] = String(rsDB.Fields(z));
 
                 }
@@ -1016,12 +1012,12 @@
  
 
             var cellText = document.createTextNode(dataText);
-
+            console.log(cellText);
  
 
             cell.appendChild(cellText);
 
- 
+            
 
             if (dataText.indexOf(serverstring) == -1) {
 
