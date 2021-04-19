@@ -397,7 +397,7 @@
 
             if (download_reports == true) {
 
-              sql = "SELECT Calendar.LOB,Calendar.FunctionName,Calendar.CurrMonth,Calendar.ActiCode,Calendar.ActiName,Calendar.Grade,Calendar.HUB,Calendar.Circle, Calendar.Frequency, Calendar.ReportFileName, Calendar.ConcernPerson01, Calendar.ConcernPerson02, Calendar.Sch_DT, Calendar.FileReceivedOn, Calendar.FileModifiedOn, Calendar.FileModifiedOnGMT, Calendar.FileSize, Calendar.FilePath, Calendar.StatusCompliance, Calendar.PointsScored from Calendar  where Calendar.StatusCompliance='FormatErr'";
+              sql = "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.LOB,Calendar.FunctionName,Calendar.CurrMonth,Calendar.ActiCode,Calendar.ActiName,Calendar.Grade,Calendar.HUB,Calendar.Circle, Calendar.Frequency, Calendar.ReportFileName, Calendar.ConcernPerson01, Calendar.ConcernPerson02, Calendar.Sch_DT, Calendar.FileReceivedOn, Calendar.FileModifiedOn, Calendar.FileModifiedOnGMT, Calendar.FileSize, Calendar.FilePath, Calendar.StatusCompliance, Calendar.PointsScored from Calendar  where Calendar.StatusCompliance='FormatErr'";
 
             } else {
 
@@ -529,7 +529,7 @@
 
               if (download_reports == true) {
 
-                sql = "SELECT Calendar.LOB,Calendar.FunctionName,Calendar.CurrMonth,Calendar.ActiCode,Calendar.ActiName,Calendar.Grade,Calendar.HUB,Calendar.Circle, Calendar.Frequency, Calendar.ReportFileName, Calendar.ConcernPerson01, Calendar.ConcernPerson02, Calendar.Sch_DT, Calendar.FileReceivedOn, Calendar.FileModifiedOn, Calendar.FileModifiedOnGMT, Calendar.FileSize, Calendar.FilePath, Calendar.StatusCompliance, Calendar.PointsScored from Calendar  where Calendar.StatusCompliance='FormatErr'";
+                sql = "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.LOB,Calendar.FunctionName,Calendar.CurrMonth,Calendar.ActiCode,Calendar.ActiName,Calendar.Grade,Calendar.HUB,Calendar.Circle, Calendar.Frequency, Calendar.ReportFileName, Calendar.ConcernPerson01, Calendar.ConcernPerson02, Calendar.Sch_DT, Calendar.FileReceivedOn, Calendar.FileModifiedOn, Calendar.FileModifiedOnGMT, Calendar.FileSize, Calendar.FilePath, Calendar.StatusCompliance, Calendar.PointsScored from Calendar  where Calendar.StatusCompliance='FormatErr'";
 
               } else {
 
