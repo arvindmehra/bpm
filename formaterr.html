@@ -397,13 +397,13 @@
 
             if (download_reports == true) {
 
-              sql = "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.LOB,Calendar.FunctionName,Calendar.CurrMonth,Calendar.ActiCode,Calendar.ActiName,Calendar.Grade,Calendar.HUB,Calendar.Circle, Calendar.Frequency, Calendar.ReportFileName, Calendar.ConcernPerson01, Calendar.ConcernPerson02, Calendar.Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Calendar.FileModifiedOn, Calendar.FileModifiedOnGMT, Calendar.FileSize, IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath, Calendar.StatusCompliance, Calendar.PointsScored from Calendar  where Calendar.StatusCompliance='FormatErr'";
+              sql = "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.LOB,Calendar.FunctionName,Calendar.CurrMonth,Calendar.ActiCode,Calendar.ActiName,Calendar.Grade,Calendar.HUB,Calendar.Circle, Calendar.Frequency, Calendar.ReportFileName, Calendar.ConcernPerson01, Calendar.ConcernPerson02, Format(Calendar.Sch_DT, 'Long Date') AS Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Format(Calendar.FileModifiedOn, 'Long Date') AS FileModifiedOn, Calendar.FileModifiedOnGMT, Calendar.FileSize, IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath, Calendar.StatusCompliance, Calendar.PointsScored from Calendar  where Calendar.StatusCompliance='FormatErr'";
 
             } else {
 
               sql =
 
-                "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Calendar.StatusCompliance, Calendar.FilePath from Calendar where Calendar.StatusCompliance = 'FormatErr'";
+                "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Format(Calendar.Sch_DT, 'Long Date') AS Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Calendar.StatusCompliance, Calendar.FilePath from Calendar where Calendar.StatusCompliance = 'FormatErr'";
 
             }
 
@@ -529,13 +529,13 @@
 
               if (download_reports == true) {
 
-                sql = "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.LOB,Calendar.FunctionName,Calendar.CurrMonth,Calendar.ActiCode,Calendar.ActiName,Calendar.Grade,Calendar.HUB,Calendar.Circle, Calendar.Frequency, Calendar.ReportFileName, Calendar.ConcernPerson01, Calendar.ConcernPerson02, Calendar.Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Calendar.FileModifiedOn, Calendar.FileModifiedOnGMT, Calendar.FileSize, IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath, Calendar.StatusCompliance, Calendar.PointsScored from Calendar  where Calendar.StatusCompliance='FormatErr'";
+                sql = "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.LOB,Calendar.FunctionName,Calendar.CurrMonth,Calendar.ActiCode,Calendar.ActiName,Calendar.Grade,Calendar.HUB,Calendar.Circle, Calendar.Frequency, Calendar.ReportFileName, Calendar.ConcernPerson01, Calendar.ConcernPerson02, Format(Calendar.Sch_DT, 'Long Date') AS Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Format(Calendar.FileModifiedOn, 'Long Date') AS FileModifiedOn, Calendar.FileModifiedOnGMT, Calendar.FileSize, IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath, Calendar.StatusCompliance, Calendar.PointsScored from Calendar  where Calendar.StatusCompliance='FormatErr'";
 
               } else {
 
                 sql =
 
-                  "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Calendar.StatusCompliance, Calendar.FilePath from Calendar where Calendar.StatusCompliance = 'FormatErr'";
+                  "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Format(Calendar.Sch_DT, 'Long Date') AS Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Calendar.StatusCompliance, Calendar.FilePath from Calendar where Calendar.StatusCompliance = 'FormatErr'";
 
               }
 
@@ -813,24 +813,14 @@
 
  
 
-            var substring = "GMT";
-
+           
  
 
             var serverstring = "10.56.91.11";
 
  
 
-            if (dataText.indexOf(substring) == -1) {
-
-              cellText = document.createTextNode(dataText);
-
-            } else {
-
-              dataText = new Date(dataText).toLocaleDateString();
-
-            }
-
+          cellText = document.createTextNode(dataText);
  
 
             if (visible.indexOf(q) == -1) {
@@ -945,23 +935,14 @@
 
  
 
-            var substring = "GMT";
-
+           
  
 
             var serverstring = "10.56.91.11";
 
  
 
-            if (dataText.indexOf(substring) == -1) {
-
-              cellText = document.createTextNode(dataText);
-
-            } else {
-
-              dataText = new Date(dataText).toLocaleDateString();
-
-            }
+           cellText = document.createTextNode(dataText);
 
  
 
@@ -1071,11 +1052,6 @@
 
           var innerValue = row[j] === null ? "" : row[j].toString();
 
-          if (row[j] instanceof Date) {
-
-            innerValue = row[j].toLocaleString();
-
-          }
 
           var result = innerValue.replace(/"/g, '""');
 

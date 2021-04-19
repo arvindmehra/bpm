@@ -399,7 +399,7 @@
 
               sql =
 
-                "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.LOB,Calendar.FunctionName,Calendar.CurrMonth,Calendar.ActiCode,Calendar.ActiName,Calendar.Grade,Calendar.HUB,Calendar.Circle, Calendar.Circle,Calendar.Frequency,Calendar.ReportFileName,Calendar.ConcernPerson01,Calendar.ConcernPerson02,Calendar.Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) As FileReceivedOn ,Calendar.FileModifiedOn,Calendar.FileModifiedOnGMT,Calendar.FileSize,IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath ,Calendar.StatusCompliance,Calendar.PointsScored from Calendar where Calendar.LOB='Mobility' OR Calendar.LOB='B2B' OR Calendar.LOB='AirtelMoney'";
+                "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.LOB,Calendar.FunctionName,Calendar.CurrMonth,Calendar.ActiCode,Calendar.ActiName,Calendar.Grade,Calendar.HUB,Calendar.Circle, Calendar.Circle,Calendar.Frequency,Calendar.ReportFileName,Calendar.ConcernPerson01,Calendar.ConcernPerson02, Format(Calendar.Sch_DT, 'Long Date') AS Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) As FileReceivedOn ,Format(Calendar.FileModifiedOn, 'Long Date') AS FileModifiedOn, Calendar.FileModifiedOnGMT,Calendar.FileSize,IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath ,Calendar.StatusCompliance,Calendar.PointsScored from Calendar where Calendar.LOB='Mobility' OR Calendar.LOB='B2B' OR Calendar.LOB='AirtelMoney'";
 
             } else {
 
@@ -447,7 +447,7 @@
 
                 sql =
 
-                  "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Calendar.StatusCompliance, IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath from Calendar where " +
+                  "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Format(Calendar.Sch_DT, 'Long Date') AS Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Calendar.StatusCompliance, IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath from Calendar where " +
 
                   main_filter +
 
@@ -457,7 +457,7 @@
 
                 sql =
 
-                  "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Calendar.StatusCompliance,  IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath from Calendar where Calendar.LOB='Mobility' OR Calendar.LOB='B2B' OR Calendar.LOB='AirtelMoney' ";
+                  "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Format(Calendar.Sch_DT, 'Long Date') AS Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Calendar.StatusCompliance,  IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath from Calendar where Calendar.LOB='Mobility' OR Calendar.LOB='B2B' OR Calendar.LOB='AirtelMoney' ";
 
               }
 
@@ -553,7 +553,7 @@
 
                 sql =
 
-                  "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.LOB,Calendar.FunctionName,Calendar.CurrMonth,Calendar.ActiCode,Calendar.ActiName,Calendar.Grade,Calendar.HUB,Calendar.Circle, Calendar.Frequency, Calendar.ReportFileName, Calendar.ConcernPerson01, Calendar.ConcernPerson02, Calendar.Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Calendar.FileModifiedOn, Calendar.FileModifiedOnGMT, Calendar.FileSize, IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath, Calendar.StatusCompliance, Calendar.PointsScored from Calendar where Calendar.LOB='Mobility' OR Calendar.LOB='B2B' OR Calendar.LOB='AirtelMoney'";
+                  "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.LOB,Calendar.FunctionName,Calendar.CurrMonth,Calendar.ActiCode,Calendar.ActiName,Calendar.Grade,Calendar.HUB,Calendar.Circle, Calendar.Frequency, Calendar.ReportFileName, Calendar.ConcernPerson01, Calendar.ConcernPerson02, Format(Calendar.Sch_DT, 'Long Date') AS Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Format(Calendar.FileModifiedOn, 'Long Date') AS FileModifiedOn, Calendar.FileModifiedOnGMT, Calendar.FileSize, IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath, Calendar.StatusCompliance, Calendar.PointsScored from Calendar where Calendar.LOB='Mobility' OR Calendar.LOB='B2B' OR Calendar.LOB='AirtelMoney'";
 
               } else {
 
@@ -601,7 +601,7 @@
 
                   sql =
 
-                    "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Calendar.StatusCompliance, IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath from Calendar where " +
+                    "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Format(Calendar.Sch_DT, 'Long Date') AS Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Calendar.StatusCompliance, IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath from Calendar where " +
 
                     main_filter +
 
@@ -611,7 +611,7 @@
 
                   sql =
 
-                    "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Calendar.Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Calendar.StatusCompliance, IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath from Calendar where Calendar.LOB='Mobility' OR Calendar.LOB='B2B' OR Calendar.LOB='AirtelMoney' ";
+                    "SELECT Calendar.ReportFileName as Dashboard_Name, Calendar.ConcernPerson01 as Owner_1, Calendar.ConcernPerson01 as Owner_2, Format(Calendar.Sch_DT, 'Long Date') AS Sch_DT, IIf(IsNull(Calendar.FileReceivedOn),'--',Calendar.FileReceivedOn) as FileReceivedOn, Calendar.StatusCompliance, IIf(IsNull(Calendar.FilePath),'--',Calendar.FilePath) As FilePath from Calendar where Calendar.LOB='Mobility' OR Calendar.LOB='B2B' OR Calendar.LOB='AirtelMoney' ";
 
                 }
 
@@ -661,6 +661,7 @@
                 var record = {};
 
                 for (var z = 0, y = fieldNames.length; z < y; z++) {
+                  
                   record[fieldNames[z]] = String(rsDB.Fields(z));
 
                 }
@@ -851,7 +852,7 @@
 
  
 
-            var substring = "GMT";
+           
 
  
 
@@ -859,15 +860,7 @@
 
  
 
-            if (dataText.indexOf(substring) == -1) {
-
-              cellText = document.createTextNode(dataText);
-
-            } else {
-
-              dataText = new Date(dataText).toLocaleDateString();
-
-            }
+            cellText = document.createTextNode(dataText);
 
  
 
@@ -983,23 +976,13 @@
 
  
 
-            var substring = "GMT";
-
- 
+           
 
             var serverstring = "10.56.91.11";
 
  
 
-            if (dataText.indexOf(substring) == -1) {
-
-              cellText = document.createTextNode(dataText);
-
-            } else {
-
-              dataText = new Date(dataText).toLocaleDateString();
-
-            }
+           cellText = document.createTextNode(dataText);
 
  
 
@@ -1109,11 +1092,6 @@
 
           var innerValue = row[j] === null ? "" : row[j].toString();
 
-          if (row[j] instanceof Date) {
-
-            innerValue = row[j].toLocaleString();
-
-          }
 
          var result = innerValue.replace(/"/g, '""');
 
