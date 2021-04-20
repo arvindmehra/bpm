@@ -501,7 +501,11 @@
 
                     condition1 = "Calendar." + subparam[j].trim();
 
-                  } else {
+                  } else if(condition1 == "Calendar.Sch_DT") {
+                      value1 =  "#" + subparam[j] + "#";
+                    } 
+  
+                  else {
 
                     if (condition1 == "Calendar.PointsScored") {
 
